@@ -1,12 +1,18 @@
 package com.dlx.test;
 
+import com.dlx.bean.Person;
 import com.dlx.bean.Student;
+
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TestCase {
     //创建静态变量，模拟数据库
     private static final ArrayList<Student> students = new ArrayList<>();
+
+    //创建学生集合，模拟数据库
+    private static final ArrayList<Person> persons = new ArrayList<>();
 
     /*
     学生管理系统主入口
@@ -58,7 +64,7 @@ public class TestCase {
                             default:
                                 System.out.println("您输入的指令有误，请重试");
                         }
-                    };
+                    }
                     break;
                 case 2:
                     registerUse(sc);
@@ -74,14 +80,75 @@ public class TestCase {
     }
 
     private static boolean loginUse(Scanner sc) {
-        System.out.println("----------欢迎来到登录页面----------");
+        int count = 3;//登录变量，机会共有三次
+        while (true) {
+            System.out.println("----------欢迎来到登录页面----------");
+            if (persons.size() == 0) {
+                System.out.println("当前数据库里面没有用户，请注册后再重试~~~~~");
+                return false;
+            } else {
+                while (true) {
+                    String yanzheng = getYanzheng();
+                    System.out.print("请输入验证码：");
+                    String yanZhengT = sc.next();
+                    if (yanzheng.equals(yanZhengT)) {
+                        System.out.println("恭喜您，验证码输入正确~~~");
+                        for (int i = 0; i < persons.size(); i++) {
+                            Person p = persons.get(i);
+                            System.out.print("请输入登录用户名：");
+                            String username = sc.next();
+                            System.out.print("请输入登录密码：");
+                            String password = sc.next();
+                            if (username.equals(p.getUsername()) && password.equals(p.getPassword())) {
+                                System.out.println("恭喜您，登录成功~~~~");
+                                return true;
+                            } else {
+                                System.out.println("账号或密码输入错误，请重试，还有" + count + "次机会呦~~~~");
+                                count--;
+                            }
+                            count--;
+                            if (count == 0) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        System.out.println("请重新输入验证码~~~~");
+                    }
+                }
+            }
+
+        }
 
     }
 
     private static void registerUse(Scanner sc) {
+
     }
 
     private static void forgetPwd(Scanner sc) {
+        System.out.println("---------欢迎来到修改密码界面--------");
+        System.out.print("请输入你要修改的用户id:");
+        String username=sc.next();
+        if(UsernameIfExists(sc,username)){
+            System.out.print("请输入你的身份证号：");
+            String idNum=sc.next();
+            System.out.print("请输入你的手机号：");
+            String tel=sc.next();
+            Person p=returnPerson(username);
+            if(p.getIdNum().equals(idNum)&&p.getTel().equals(tel)){
+                System.out.print("请输入您要重置的密码：");
+                String password=sc.next();
+                p.setPassword(password);
+                System.out.println("重置成功~~~~~~~");
+            }else{
+                System.out.println("账号信息不匹配，修改失败~~~~~");
+                return;
+            }
+        }else{
+            System.out.println("当前用户名未注册，请注册后重试~~~~~~");
+            return;
+        }
+
     }
 
     /**
@@ -200,5 +267,57 @@ public class TestCase {
                 queryStudent(sc);
             }
         }
+    }
+
+    /**
+     * 产生验证码
+     *
+     * @return 返回产生的验证码
+     */
+    public static String getYanzheng() {
+        Random r = new Random();
+        String strA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String strB = "0123456789";
+        String result = "";
+        int seed = r.nextInt(5);//记录数字的位置
+        for (int i = 0; i < 5; i++) {
+            if (i == seed) {
+                result += strB.charAt(r.nextInt(strB.length()));
+            }
+            result += strA.charAt(r.nextInt(strA.length()));
+        }
+        return result;
+    }
+
+    /**
+     * 判断用户名是否存在
+     */
+    public static boolean UsernameIfExists(Scanner sc,String username){
+        if(persons.size()==0){
+            return true;
+        }
+        for (int i = 0; i < persons.size(); i++) {
+            Person p=persons.get(i);
+            String name=p.getUsername();
+            if(username.equals(name)){
+                System.out.println("当前用户名存在~~~~");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+    根据用户名返回用户对象
+     */
+    public static Person returnPerson(String username){
+        for (int i = 0; i < persons.size(); i++) {
+            Person p=persons.get(i);
+            String name=p.getUsername();
+            if(username.equals(name)){
+                return p;
+            }
+        }
+        return null;
     }
 }
