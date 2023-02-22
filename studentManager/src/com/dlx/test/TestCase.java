@@ -89,6 +89,7 @@ public class TestCase {
             } else {
                 while (true) {
                     String yanzheng = getYanzheng();
+                    System.out.println("验证码为"+yanzheng);
                     System.out.print("请输入验证码：");
                     String yanZhengT = sc.next();
                     if (yanzheng.equals(yanZhengT)) {
@@ -122,7 +123,77 @@ public class TestCase {
     }
 
     private static void registerUse(Scanner sc) {
+        Person p=new Person();
+        System.out.println("---------欢迎来到注册页面-----------");
+        System.out.print("请输入您的用户名：");
+        String username=sc.next();
+        if(username.length()<3||username.length()>15){
+            System.out.println("用户名不符合规则，要在3到15之间~~~~");
+            return;
+        }else{
+            if(UsernameIfExists(sc,username)){
+                System.out.println("用户名已存在~~~~");
+                return;
+            }else{
+                if(checkUsername(username)){
+                    p.setUsername(username);
+                    System.out.print("请输入您的密码：");
+                    String password=sc.next();
+                    System.out.print("请再次输入您的密码：");
+                    String pwd=sc.next();
+                    if(password.equals(pwd)){
+                        p.setPassword(password);
+                        System.out.print("请输入您的身份证号：");
+                        String idNum=sc.next();
+                        if(idNum.length()==18){
+                            if(idNum.charAt(0)!='0'){
+                                for (int i = 0; i < idNum.length(); i++) {
+                                    if(i!=idNum.length()-1){
+                                        if(idNum.charAt(i)<'0'||idNum.charAt(i)>'9'){
+                                            System.out.println("身份证格式有误~~~~~");
+                                            return;
+                                        }
+                                    }else{
+                                        if(idNum.charAt(i)=='X'||idNum.charAt(i)=='x'||(idNum.charAt(i)>='0'&&idNum.charAt(i)<='9')){
+                                            p.setIdNum(idNum);
+                                            System.out.print("请输入你的手机号:");
+                                            String  tel =sc.next();
+                                            if(tel.length()==11){
+                                                if(tel.charAt(0)!='0'){
+                                                    p.setTel(tel);
+                                                    persons.add(p);
+                                                    System.out.println("注册成功~~~~~");
+                                                }else{
+                                                    System.out.println("手机号首位不能为零~~~~");
+                                                    return;
+                                                }
+                                            }else{
+                                                System.out.println("手机号长度不符合11位");
+                                                return;
+                                            }
+                                        }else{
+                                            return;
+                                        }
+                                    }
+                                }
+                            }else{
+                                System.out.println("身份证首位不能为0");
+                                return;
+                            }
+                        } else{
+                            System.out.println("身份证号不满足18位~~~~~~");
+                            return;
+                        }
+                    }else{
+                        System.out.println("两次密码不一致~~~~~");
+                        return;
+                    }
+                }else{
+                    return;
+                }
+            }
 
+        }
     }
 
     private static void forgetPwd(Scanner sc) {
@@ -153,7 +224,6 @@ public class TestCase {
 
     /**
      * 查询学生功能
-     *
      * @param sc
      */
     private static void queryStudent(Scanner sc) {
@@ -294,7 +364,7 @@ public class TestCase {
      */
     public static boolean UsernameIfExists(Scanner sc,String username){
         if(persons.size()==0){
-            return true;
+            return false;
         }
         for (int i = 0; i < persons.size(); i++) {
             Person p=persons.get(i);
@@ -319,5 +389,30 @@ public class TestCase {
             }
         }
         return null;
+    }
+
+    /**
+     * 用户名校验
+     * @param username 用户名
+     * @return
+     */
+    public static boolean checkUsername(String username){
+        int count=0;//数字个数计数
+        boolean flag=false;
+        for (int i = 0; i < username.length(); i++) {
+            if((username.charAt(i)>='0'&&username.charAt(i)<='9')||(username.charAt(i)>='A'&&username.charAt(i)<='Z')||(username.charAt(i)>='a'&&username.charAt(i)<='z')){
+                if(username.charAt(i)>='0'&&username.charAt(i)<='9'){
+                    count++;
+                }
+                continue;
+            }else{
+                return flag;
+            }
+        }
+        if(count==username.length()){
+            System.out.println("用户名不能全为数字~~~~~");
+            return flag;
+        }
+        return true;
     }
 }
