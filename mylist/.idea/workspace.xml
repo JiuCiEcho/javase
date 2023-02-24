@@ -34,7 +34,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="应用程序.TestDemo3">
+  <component name="RunManager" selected="应用程序.TestDemo4">
     <configuration name="TestDemo1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.dlx.test.TestDemo1" />
       <module name="mylist" />
@@ -74,8 +74,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestDemo4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dlx.test.TestDemo4" />
+      <module name="mylist" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.dlx.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="应用程序.TestDemo4" />
         <item itemvalue="应用程序.TestDemo3" />
         <item itemvalue="应用程序.TestDemo2" />
         <item itemvalue="应用程序.TestDemo1" />
@@ -92,6 +106,8 @@
       <updated>1676705282497</updated>
       <workItem from="1676705283739" duration="1100000" />
       <workItem from="1676711267095" duration="1708000" />
+      <workItem from="1676819348365" duration="16000" />
+      <workItem from="1676893863858" duration="1429000" />
     </task>
     <servers />
   </component>
