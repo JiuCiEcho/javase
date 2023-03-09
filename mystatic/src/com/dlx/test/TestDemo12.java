@@ -12,7 +12,6 @@ public class TestDemo12 {
         }
         System.out.println(Arrays.toString(arr));
 
-        //write your code here......
         for(int i=0,j=arr.length-1;i<=j;i++,j--){
             int temp=arr[i];
             arr[i]=arr[j];
